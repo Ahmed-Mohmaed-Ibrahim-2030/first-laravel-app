@@ -7,6 +7,10 @@ use App\Models\user_phone;
 use Illuminate\Http\Request;
 use Auth;
 //use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+
+//use Illuminate\Support\Facades\Auth;
 
 class UserPhoneController extends Controller
 {
@@ -42,13 +46,20 @@ class UserPhoneController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $phone=new user_phone();
 
-        $phone->user_id=Auth::id();
-        $phone->phone=$request->phone;
-        $phone->save();
-        return redirect()->route('articles.index');
+        $request->validate([
+            'phone'=>['required', 'unique:user_phones','max:11','min:11','regex:/^(01)[012]{1}[0-9]{8}/'],
+           // 'phone' => Rule::unique('user_phones')->where(fn ($query) => $query->whereNull('deleted_at'))
+        ]);
+
+
+        Auth::user()->user_phones()->create($request->all());
+//        $phone=new user_phone();
+//
+//        $phone->user_id=Auth::id();
+//        $phone->phone=$request->phone;
+//        $phone->save();
+  return redirect()->route('articles.index');
 
     }
 
@@ -73,9 +84,20 @@ class UserPhoneController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(user_phone $userPhone ,$phone )
+
     {
+//        if(Auth::user()->cannot('update',$userPhone))
+//        {
+//            return abort(403);
+//        }
+      //  $this->authorize('update',$userPhone);
       //  dd($phone);
-         $yourPhone=user_phone::where('phone','=',$phone)->first();
+        $yourPhone=user_phone::where('phone','=',$phone)->first();
+        if (! Gate::allows('update-user_phone', $yourPhone)) {
+            abort(403);
+        }
+
+//        $yourPhone=user_phone::where('phone','=',$phone)->first();
        //  dd($yourPhone);
 
          return view('articles.edit', ['phone'=>$yourPhone ]);
@@ -91,8 +113,23 @@ class UserPhoneController extends Controller
     public function update(Request $request ,user_phone  $userPhone,$phone)
     {
         //
-        $yourPhone=user_phone::where('phone','=',$phone)->update(['phone'=>$request->phone]);
+//        if (! Gate::allows('update-user_phone', $userPhone)) {
+//            abort(403);
+//        }
+//        $this->authorize('update',$userPhone);
+        $yourPhone=user_phone::where('phone','=',$phone)->first();
+        if (! Gate::allows('update-user_phone', $yourPhone)) {
+            abort(403);
+        }
 
+        $request->validate([
+            'phone'=>['required', 'regex:/^(01)[012]{1}[0-9]{8}/','max:11','min:11'],
+            'phone' => Rule::unique('user_phones')->where(fn ($query) => $query->where('phone','<>', $phone))
+        ]);
+
+//        $yourPhone=user_phone::where('phone','=',$phone)->update(['phone'=>$request->phone]);
+
+        Auth::user()->user_phones()->where('phone','=',$phone)->update($request->only('phone'));
 //        $yourPhone->phone = $request->phone;
 //        //$yourPhone->save();
       //  dd($yourPhone->fill(['phone'=>$request->phone]));
@@ -116,8 +153,15 @@ class UserPhoneController extends Controller
     public function destroy(user_phone $userPhone,$phone)
     {
         //
+        //
 
-        $yourPhone=user_phone::where('phone','=',$phone)->delete();
+        $yourPhone=user_phone::where('phone','=',$phone)->first();
+        if (! Gate::allows('delete-user_phone', $yourPhone)) {
+            abort(403);
+        }
+        Auth::user()->user_phones()->where('phone','=',$phone)->delete();
+//$this->authorize('delete',$userPhone);
+       // $yourPhone=user_phone::where('phone','=',$phone)->delete();
         return redirect()->route('articles.index');
     }
 }

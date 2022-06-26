@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\user_phone;
+use App\Policies\PostPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-
+//Gate::guessPolicyNamesUsing(function ($modelClass) {
+//    // Return the name of the policy class for the given model...
+//});
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -12,8 +16,12 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
+
+
+
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        user_phone::class=>PostPolicy::class,
     ];
 
     /**
@@ -23,7 +31,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+
         $this->registerPolicies();
+        Gate::define('update-user_phone', [PostPolicy::class, 'update']);
+        Gate::define('delete-user_phone', [PostPolicy::class, 'delete']);
 
         //
     }
