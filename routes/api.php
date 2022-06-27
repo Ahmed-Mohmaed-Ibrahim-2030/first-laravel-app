@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserPhonesController;
 
+use App\Http\Controllers\Api\loginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,7 +16,8 @@ use App\Http\Controllers\Api\UserPhonesController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::resource('phones',UserPhonesController::class);
+Route::resource('phones',UserPhonesController::class)->middleware('auth:sanctum');
+Route::post('login',[loginController::class,'login']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

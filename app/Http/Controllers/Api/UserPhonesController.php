@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\User_PhoneResource;
 use App\Models\user_phone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserPhonesController extends Controller
 {
@@ -17,19 +18,25 @@ class UserPhonesController extends Controller
     public function index()
     {
         //
-  //      dd(user_phone::all());
+        //      dd(user_phone::all());
         return User_PhoneResource::Collection(user_phone::all());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        if ($request->user()->user_phones()->create($request->all()))
+          {
+
+              return User_PhoneResource::Collection(user_phone::all())->response()->setStatusCode(201);
+          }
+        return 'not added';
     }
 
     /**
@@ -41,7 +48,8 @@ class UserPhonesController extends Controller
     public function show(user_phone $user_phone,$phone)
     {
         //
-       // dd(user_phone::where('phone',$phone)->first());
+     //   dd($phone);
+//     dd(user_phone::where('phone',$phone)->first());
         return new User_PhoneResource(user_phone::where('phone',$phone)->first());
     }
 
@@ -55,9 +63,11 @@ class UserPhonesController extends Controller
     public function update(Request $request, user_phone $user_phone ,$phone)
     {
         //
-        dd($request->all());
-       if( user_phone::where('phone',$phone)->first()->update($request->only('phone'))) {
-           return new User_PhoneResource(user_phone::where('phone', $phone)->first());
+       // dd($phone);
+  // dd(user_phone::where('phone','like',$phone)->first());
+   //     dd($request->all());
+       if(  Auth::user()->user_phones()->where('phone','=',$phone)->update($request->only('phone'))) {
+           return User_PhoneResource::Collection(user_phone::all())->response()->setStatusCode(201);
        }
     }
 
@@ -67,8 +77,14 @@ class UserPhonesController extends Controller
      * @param  \App\Models\user_phone  $user_phone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(user_phone $user_phone)
+    public function destroy(Request $request,user_phone $user_phone ,$phone)
     {
         //
+//        return new User_PhoneResource(user_phone::where('phone',$phone)->first());
+//        dd($phone);
+//        dd(user_phone::where('phone',$phone)->first());
+        if( Auth::user()->user_phones()->where('phone','=',$phone)->delete()) {
+            return User_PhoneResource::Collection(user_phone::all())->response()->setStatusCode(201);
+        }
     }
 }
