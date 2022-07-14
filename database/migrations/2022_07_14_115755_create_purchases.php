@@ -15,6 +15,17 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users') ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('book_id');
+
+
+            $table->foreign('book_id')->references('id')->on('books') ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unique('user_id','book_id');
+            $table->integer('price');
             $table->timestamps();
         });
     }

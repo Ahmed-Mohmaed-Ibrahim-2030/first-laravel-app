@@ -18,6 +18,7 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('welcome');
 });
+route::view('about-me','about')->middleware('guest');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

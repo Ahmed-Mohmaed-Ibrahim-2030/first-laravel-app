@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('category_id');
+            $table->string('title');
+            $table->text('description');
+            $table->string('author');
+            $table->integer('price');
+            $table->foreign('category_id')->references('id')->on('book_categories') ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,5 +35,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('books');
+
     }
 };

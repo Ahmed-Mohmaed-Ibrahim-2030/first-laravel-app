@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\apis\productcontroller;
+use App\Http\Controllers\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserPhonesController;
@@ -32,3 +33,4 @@ Route::post('porduct/update/{id}',[productcontroller::class,'update']);
 Route::get('porduct/create',[productcontroller::class,'create']);
 Route::delete('porduct/delete/{id}',[productcontroller::class,'delete']);
 Route::post('porduct/store',[productcontroller::class,'store']);
+Route::get('index',[Book::class,'index']);

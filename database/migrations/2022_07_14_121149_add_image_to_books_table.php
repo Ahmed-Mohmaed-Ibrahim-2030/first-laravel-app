@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             //
+            $table->string('image');
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             //
+            $table->dropColumn('image');
         });
     }
 };

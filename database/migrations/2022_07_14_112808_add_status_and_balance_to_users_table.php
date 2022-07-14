@@ -17,6 +17,7 @@ return new class extends Migration
             //
             $table->boolean('active');
             $table->integer('balance')->nullable(false);
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +32,7 @@ return new class extends Migration
             //
             $table->dropColumn('active');
             $table->dropColumn('balance');
+            $table->dropSoftDeletes();
 
         });
     }
