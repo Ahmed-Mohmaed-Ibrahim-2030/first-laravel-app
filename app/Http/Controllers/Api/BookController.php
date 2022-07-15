@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\BookResource;
-use App\Models\Book;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Http\Resources\BookResource;
+use App\Models\Book;
+use Illuminate\Http\JsonResponse;
 
 class BookController extends Controller
 {
@@ -25,6 +27,22 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getByCategory($category_id){
+//      $  dd(new BookResource(Book::where('category_id', $category_id)->get()));
+
+//dd(Book::where('category_id', $category_id)->get());
+        return Book::where('category_id', $category_id)->get();
+    }
+    public function getByTitle($title){
+//      $  dd(new BookResource(Book::where('category_id', $category_id)->get()));
+//        $result= new BookResource();
+
+        return Book::where('title','like', "%$title%")->get();
+    } public function getByAuthor($author){
+//      $  dd(new BookResource(Book::where('category_id', $category_id)->get()));
+
+        return Book::where('author','like', "%$author%")->get();
+    }
     public function create()
     {
         //
@@ -47,9 +65,10 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show(Book $book,$id)
     {
         //
+        return Book::find($id);
     }
 
     /**

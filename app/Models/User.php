@@ -15,6 +15,22 @@ public function user_phones(){
     return $this->hasMany(user_phone::class);
 
 }
+public function purchases(){
+
+    return $this->hasMany(Purchase::class);
+
+}
+public function favorite_books(){
+
+    return $this->hasMany(favorite_books::class);
+
+}
+public function rated_books(){
+
+    return $this->hasMany(book_rates::class);
+
+}
+
     /**
      * The attributes that are mass assignable.
      *
