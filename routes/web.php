@@ -24,5 +24,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 Route::resource('articles',userPhoneController::class)->middleware(['auth']);
-
+//Route::resource('articles',userPhoneController::class)->middleware(['auth']);
+Route::get('create',[\App\Http\Controllers\manager\ManagerController::class,'create']);
+Route::post('create',[\App\Http\Controllers\manager\ManagerController::class,'store'])->name('create');
 require __DIR__.'/auth.php';

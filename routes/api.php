@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::resource('phones',UserPhonesController::class)->middleware('auth:sanctum');
 Route::post('login',[loginController::class,'login']);
+Route::get('logout',[loginController::class,'logout'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -40,6 +41,6 @@ Route::get('index/category/{category_id}',[BookController::class,'getByCategory'
 Route::get('index/title/{title}',[BookController::class,'getByTitle']);
 Route::get('index/author/{author}',[BookController::class,'getByAuthor']);
 Route::get('userPurchased',[PurchaseController::class,'getUsersPurchased']);
-Route::get('userFavouriteBooks/{id}',[\App\Http\Controllers\Api\FavoriteBooksController::class,'getUserFavouriteBooks']);
+Route::get('userFavouriteBooks/{id}',[\App\Http\Controllers\Api\FavoriteBooksController::class,'getUserFavouriteBooks'])->middleware('auth:sanctum');;
 Route::post('AddCommentsToBook',[\App\Http\Controllers\Api\BookRatesController::class,'store'])->middleware('auth:sanctum');
 Route::post('purchaseBook',[\App\Http\Controllers\Api\PurchaseController::class,'store'])->middleware('auth:sanctum');
