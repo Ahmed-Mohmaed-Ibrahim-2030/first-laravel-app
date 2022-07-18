@@ -33,6 +33,31 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.update');
 });
+Route::middleware('auth')->group(function () {
+    Route::get('edit', [\App\Http\Controllers\Auth\UpdateUserDate::class, 'edit'])
+                ->name('editUser');
+    Route::put('update', [\App\Http\Controllers\Auth\UpdateUserDate::class, 'update'])
+                ->name('updateUser');
+
+//    Route::post('register', [RegisteredUserController::class, 'store']);
+//
+//    Route::get('login', [AuthenticatedSessionController::class, 'create'])
+//                ->name('login');
+//
+//    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+//
+//    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+//                ->name('password.request');
+//
+//    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+//                ->name('password.email');
+//
+//    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+//                ->name('password.reset');
+//
+//    Route::post('reset-password', [NewPasswordController::class, 'store'])
+//                ->name('password.update');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
