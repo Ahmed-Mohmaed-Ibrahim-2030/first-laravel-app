@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rules;
 
 class ManagerController extends Controller
 {
@@ -44,13 +45,13 @@ class ManagerController extends Controller
      */
     public function store(StoreManagerRequest $request)
     {
-        //
+
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:managers'],
             'username' => ['required', 'string', 'max:10','unique:managers'],
-            'address'=>['required', 'string', 'max:200'],
+            'phone'=>['required', 'unique:managers','max:11','min:11','regex:/^(01)[012]{1}[0-9]{8}/'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 //dd($request);
@@ -58,7 +59,7 @@ class ManagerController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'username'=>$request->username,
-            'address'=>$request->address,
+            'phone'=>$request->phone,
             'password' => Hash::make($request->password),
         ]);
 
@@ -69,7 +70,7 @@ class ManagerController extends Controller
 //
 //        return redirect(RouteServiceProvider::HOME);
         if($user)
-        dd($user);
+return redirect('manager/dashboard');
         else
             dd("mission failed");
 

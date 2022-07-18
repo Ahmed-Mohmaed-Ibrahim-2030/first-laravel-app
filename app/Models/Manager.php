@@ -12,7 +12,7 @@ class Manager extends Model
     protected $fillable = [
         'name',
         'email',
-        'address',
+        'phone',
         'username',
         'password',
 

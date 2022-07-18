@@ -10,7 +10,7 @@
             <!-- Validation Errors -->
             <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-            <form method="POST" action="{{ route('create') }}">
+            <form method="POST" action="{{ route('manager.store') }}">
                 @csrf
 
                 <!-- Name -->
@@ -31,9 +31,9 @@
                     <x-input id="username" type="text" name="username" :value="old('username')" required />
                 </div>
                 <div class="mb-3">
-                    <x-label for="address" :value="__('Address')" />
+                    <x-label for="phone" :value="__('Phone')" />
 
-                    <x-input id="address" type="text" name="address" :value="old('address')" required />
+                    <x-input id="phone" type="text" name="phone" :value="old('phone')" required />
                 </div>
 
                 <!-- Password -->
