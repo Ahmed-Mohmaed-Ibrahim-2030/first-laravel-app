@@ -33,8 +33,16 @@ Route::controller(ManagerController::class)->prefix('manager')->name('manager.')
 Route::get('create','create')->name('create');
 Route::post('store','store')->name('store');
 Route::get('/dashboard', function () {        return view('manager-Dashboard');    })->name('dashboard');
-Route::get('login','login');
+Route::post('login','login')->name('login');
+Route::get('log','log')->name('log');
 }
 );
 
 require __DIR__.'/auth.php';
+/////////////
+
+
+
+
+
+

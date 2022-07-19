@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
-
+use Illuminate\Http\Request;
 class ManagerController extends Controller
 {
     /**
@@ -119,5 +119,28 @@ return redirect('manager/dashboard');
     public function destroy(Manager $manager)
     {
         //
+    }
+    public function login( Request $request){
+     
+
+ $request->validate([
+           
+            'username' => ['required', 'string', 'max:10'],
+            
+            'password' => ['required', Rules\Password::defaults()]
+        ]);
+
+        $manager=Manager::where('username',$request->username)->first();
+        if (Hash::check($request->password,$manager->password)){
+             session([
+                'manager'=>$manager
+            
+             ]);
+             return redirect ()->route('manager.dashboard');
+        }
+        
+    }
+    public function log(){
+        return view ('manager.login');
     }
 }
