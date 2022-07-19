@@ -29,6 +29,7 @@ Route::get('/dashboard', function () {
 Route::resource('articles',userPhoneController::class)->middleware(['auth']);
 //Route::resource('articles',userPhoneController::class)->middleware(['auth']);
 //Router::group('manager',)
+//Router::group('manager',)
 
 Route::controller(ManagerController::class)->prefix('manager')->name('manager.')->group(function () {
 Route::get('create','create')->name('create');
