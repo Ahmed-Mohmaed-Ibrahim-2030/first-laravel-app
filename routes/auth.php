@@ -34,6 +34,7 @@ Route::middleware('guest')->group(function () {
                 ->name('password.update');
 });
 Route::middleware('auth')->group(function () {
+
     Route::get('edit', [\App\Http\Controllers\Auth\UpdateUserDate::class, 'edit'])
                 ->name('editUser');
     Route::put('update', [\App\Http\Controllers\Auth\UpdateUserDate::class, 'update'])

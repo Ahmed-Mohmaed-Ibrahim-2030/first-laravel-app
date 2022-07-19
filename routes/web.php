@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\bookController;
 use App\Http\Controllers\manager\ManagerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userPhoneController;
@@ -36,5 +37,5 @@ Route::get('/dashboard', function () {        return view('manager-Dashboard'); 
 Route::get('login','login');
 }
 );
-
+Route::get('allBooks',[bookController::class,'index'])->name('allBooks');
 require __DIR__.'/auth.php';

@@ -3,4 +3,4 @@
 {{--</svg>--}}
 
 <?php $user = Illuminate\Support\Facades\Auth::user()?>
-<img src="{{asset('assets\images\users'.(($user&&$user->image)?$user->image:'\default.jpg'))}}" class="img-thumbnail rounded-circle " width="50" height="50" >
+<img src="{{asset('assets\images\users\\'.(($user&&$user->image)?$user->image:'default.jpg'))}}" class="img-thumbnail rounded-circle " width="50" height="50" >
