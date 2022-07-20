@@ -164,4 +164,6 @@ class UserPhoneController extends Controller
        // $yourPhone=user_phone::where('phone','=',$phone)->delete();
         return redirect()->route('articles.index');
     }
+
+    // ahmed
 }
