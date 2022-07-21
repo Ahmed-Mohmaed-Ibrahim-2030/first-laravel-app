@@ -81,6 +81,6 @@ class BookCategoriesController extends Controller
      */
     public function destroy(book_categories $book_categories)
     {
-        //
+        //destroy
     }
 }
